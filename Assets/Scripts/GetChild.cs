@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using SimpleJSON;
 using System.IO;
 
-public class GetData : MonoBehaviour
+public class GetChild : MonoBehaviour
 {
     public string DataURL = "https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json";
 
