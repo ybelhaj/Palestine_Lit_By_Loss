@@ -26,7 +26,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5865818620910291488}
@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 3164794577598398533}
   - component: {fileID: 7334142301203445443}
   - component: {fileID: 6063601993247037643}
+  - component: {fileID: 4669756359285085034}
   m_Layer: 0
   m_Name: Gaza_mesh
   m_TagString: Region
@@ -142,6 +143,24 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5299569051528439061, guid: cc5b9068210b046c982679438083d2ce, type: 3}
+--- !u!114 &4669756359285085034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3468186746683206429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660480c9ce92749f1852c2dba156f8fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  otherRegions:
+  - {fileID: 6333901221966638603}
+  - {fileID: 6861618222577683085}
+  targetScale: {x: 1, y: 1, z: 1}
+  targetPosition: {x: 0, y: 0, z: 0}
+  moveSpeed: 2
 --- !u!1 &6333901221966638603
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,6 +258,7 @@ GameObject:
   - component: {fileID: 1713647360392182311}
   - component: {fileID: 1276976974605838557}
   - component: {fileID: 4246161945714087858}
+  - component: {fileID: 1140113107087339862}
   m_Layer: 0
   m_Name: WestBank_mesh
   m_TagString: Region
@@ -335,3 +355,21 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8222194093964388066, guid: cc5b9068210b046c982679438083d2ce, type: 3}
+--- !u!114 &1140113107087339862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6861618222577683085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660480c9ce92749f1852c2dba156f8fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  otherRegions:
+  - {fileID: 3468186746683206429}
+  - {fileID: 6333901221966638603}
+  targetScale: {x: 1, y: 1, z: 1}
+  targetPosition: {x: 0, y: 0, z: 0}
+  moveSpeed: 2
