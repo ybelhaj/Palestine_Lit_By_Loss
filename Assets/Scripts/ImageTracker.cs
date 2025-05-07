@@ -27,8 +27,35 @@ public class TrackImage : MonoBehaviour
             Vector3 spawnPosition = newImage.transform.position;
             Quaternion spawnRotation = newImage.transform.rotation;
 
-            // Set the transform once
-            newObject.transform.SetPositionAndRotation(spawnPosition, spawnRotation);
+            // Set the initial position
+            newObject.transform.position = spawnPosition;
+
+            // Face the camera horizontally (Y-axis only)
+            Transform cameraTransform = Camera.main != null ? Camera.main.transform : null;
+
+            if (cameraTransform != null)
+            {
+                Vector3 lookDirection = cameraTransform.position - spawnPosition;
+                lookDirection.y = 0f; // Keep it horizontal
+
+                if (lookDirection.sqrMagnitude > 0.001f)
+                {
+                    Quaternion lookRotation = Quaternion.LookRotation(lookDirection.normalized);
+
+                    // Apply rotation
+                    newObject.transform.rotation = lookRotation;
+
+                    // Debug logs
+                    //Debug.Log("Look direction: " + lookDirection);
+                    //Debug.Log("Applied rotation: " + lookRotation.eulerAngles);
+                }
+            }
+            else
+            {
+                // Fallback
+                newObject.transform.rotation = spawnRotation;
+                //Debug.LogWarning("Camera.main not found — using tracked image rotation instead.");
+}
 
             // Store spawn position globally for use by RegionSelector
             LastSpawnPosition = spawnPosition;
