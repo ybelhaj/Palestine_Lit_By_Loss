@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation; // include xr library
+using UnityEngine.XR.ARFoundation; // include XR library
 
 public class TrackImage : MonoBehaviour
 {
     [SerializeField]
-    ARTrackedImageManager m_TrackedImageManager; 
-    public GameObject mapPrefab; //Prefab you want to appear on marker image
-    
+    ARTrackedImageManager m_TrackedImageManager;
+
+    public GameObject mapPrefab; // Prefab to appear on marker image
+
+    public static Vector3 LastSpawnPosition { get; private set; } // Public static spawn position
+
     void OnEnable() => m_TrackedImageManager.trackedImagesChanged += OnChanged;
 
     void OnDisable() => m_TrackedImageManager.trackedImagesChanged -= OnChanged;
@@ -20,16 +23,15 @@ public class TrackImage : MonoBehaviour
             // Instantiate the map prefab
             GameObject newObject = Instantiate(mapPrefab);
 
-            // Snapshot the tracked image’s current position and rotation
+            // Snapshot the tracked image’s position and rotation
             Vector3 spawnPosition = newImage.transform.position;
             Quaternion spawnRotation = newImage.transform.rotation;
 
-            // Set the map's transform once
+            // Set the transform once
             newObject.transform.SetPositionAndRotation(spawnPosition, spawnRotation);
 
-            // DO NOT parent the map to the marker
-            // DO NOT update it in any Update() or OnChanged loop afterward
+            // Store spawn position globally for use by RegionSelector
+            LastSpawnPosition = spawnPosition;
         }
     }
-
 }
