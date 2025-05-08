@@ -8,6 +8,9 @@ public class TrackImage : MonoBehaviour
     [SerializeField]
     ARTrackedImageManager m_TrackedImageManager;
 
+    public GameObject scanPrompt;   // Reference to Prompt A
+    public GameObject regionPrompt; // Reference to Prompt B
+
     public GameObject mapPrefab; // Prefab to appear on marker image
 
     public static Vector3 LastSpawnPosition { get; private set; } // Public static spawn position
@@ -55,7 +58,13 @@ public class TrackImage : MonoBehaviour
                 // Fallback
                 newObject.transform.rotation = spawnRotation;
                 //Debug.LogWarning("Camera.main not found — using tracked image rotation instead.");
-}
+            }
+
+            if (scanPrompt != null)
+                scanPrompt.SetActive(false);
+
+            if (regionPrompt != null)
+                regionPrompt.SetActive(true);
 
             // Store spawn position globally for use by RegionSelector
             LastSpawnPosition = spawnPosition;
