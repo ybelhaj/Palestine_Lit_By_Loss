@@ -133,12 +133,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 660480c9ce92749f1852c2dba156f8fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  regionKey: west_bank
   otherRegions:
   - {fileID: 8602735532287254287}
   - {fileID: 9024155827123366897}
-  targetScale: {x: 1, y: 1, z: 1}
-  targetPosition: {x: 0, y: 0, z: 0}
-  targetRotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
+  targetScale: {x: 3, y: 3, z: 1}
   moveSpeed: 2
 --- !u!64 &7935545137047899558
 MeshCollider:
@@ -261,12 +260,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 660480c9ce92749f1852c2dba156f8fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  regionKey: gaza
   otherRegions:
   - {fileID: 9024155827123366897}
   - {fileID: 7052892329761205567}
-  targetScale: {x: 5, y: 5, z: 1}
-  targetPosition: {x: 0, y: 0, z: 0}
-  targetRotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
+  targetScale: {x: 7, y: 7, z: 1}
   moveSpeed: 2
 --- !u!64 &2707395992641756598
 MeshCollider:
