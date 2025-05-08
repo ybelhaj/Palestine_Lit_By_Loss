@@ -12,14 +12,14 @@ public class GetChild : MonoBehaviour
 {
     public string DataURL = "https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json";
 
-    public GameObject namesCanvas;         // Entire UI Canvas to hide/show
-    public GameObject homeButton;          // Button to return to intro
-    public GameObject startNamesButton;    // 'Know Their Names' button
-    public GameObject namesPanel;          // Panel that holds infoText, nameText and buttons 
-    public TextMeshProUGUI nameText;       // TextMeshProUGUI for displaying name
-    public TextMeshProUGUI infoText;       // TextMeshProUGUI for displaying info
-    public Button nextButton;              // UI Button to go to next child
-    public Button backButton;              // UI Button to go back
+    public GameObject namesCanvas;
+    public GameObject homeButton;
+    public GameObject startNamesButton;
+    public GameObject namesPanel;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI infoText;
+    public Button nextButton;
+    public Button backButton;
 
     private List<JSONNode> childrenList = new List<JSONNode>();
     private int currentIndex = 0;
@@ -27,11 +27,13 @@ public class GetChild : MonoBehaviour
 
     void Start()
     {
-        namesCanvas.SetActive(false);       // Hide entire UI canvas initially
+        namesCanvas.SetActive(false);
     }
 
     IEnumerator GetDataFromWeb()
     {
+        Debug.Log("📡 Starting web request to: " + DataURL);
+
         using (UnityWebRequest request = UnityWebRequest.Get(DataURL))
         {
             yield return request.SendWebRequest();
@@ -43,25 +45,43 @@ public class GetChild : MonoBehaviour
 #endif
             {
                 infoText.text = "Error fetching data.";
-                Debug.LogError(request.error);
+                Debug.LogError("❌ Network error: " + request.error);
             }
             else
             {
                 string json = request.downloadHandler.text;
-                ProcessJSON(json);
+                Debug.Log("✅ Successfully fetched data. Length: " + json.Length);
+
+                try
+                {
+                    ProcessJSON(json);
+                }
+                catch (Exception ex)
+                {
+                    infoText.text = "Error reading data.";
+                    Debug.LogError("❌ JSON parsing failed: " + ex.Message);
+                }
             }
         }
     }
 
+    IEnumerator WaitThenGetData()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return GetDataFromWeb();
+    }
+
     public void OnStartButtonClicked()
     {
-        startNamesButton.SetActive(false);       // Hide the start button
-        namesPanel.SetActive(true);              // Show the main UI panel
-        homeButton.SetActive(true);              // Show Home button
-        infoText.text = "Loading data...";       // Optional loading message
+        Debug.Log("▶️ Start button clicked.");
+
+        startNamesButton.SetActive(false);
+        namesPanel.SetActive(true);
+        homeButton.SetActive(true);
+        infoText.text = "Loading data...";
         nextButton.interactable = false;
         backButton.interactable = false;
-        StartCoroutine(GetDataFromWeb());        // Start fetching
+        StartCoroutine(WaitThenGetData());
     }
 
     public void OnHomeButtonClicked()
@@ -74,7 +94,16 @@ public class GetChild : MonoBehaviour
     void ProcessJSON(string jsonString)
     {
         JSONNode root = JSON.Parse(jsonString);
+        if (root == null)
+        {
+            throw new Exception("Root JSON is null or malformed.");
+        }
+
         JSONArray peopleArray = root.AsArray;
+        if (peopleArray == null)
+        {
+            throw new Exception("Expected a JSON array at root.");
+        }
 
         childrenList.Clear();
 
@@ -86,14 +115,15 @@ public class GetChild : MonoBehaviour
             }
         }
 
+        Debug.Log($"👶 Filtered {childrenList.Count} children under age 18.");
+
         Shuffle(childrenList);
-        ExportToFile(childrenList, "ShuffledChildrenList.txt");
 
         currentIndex = 0;
         dataReady = true;
         nextButton.interactable = true;
 
-        ShowNextChild(); // Show the first person
+        ShowNextChild();
     }
 
     public void ShowNextChild()
@@ -116,15 +146,14 @@ public class GetChild : MonoBehaviour
 
         if (DateTime.TryParse(dobRaw, out DateTime parsedDate))
         {
-            dobFormatted = parsedDate.ToString("dd MMMM yyyy"); // → e.g., 10 May 2021
+            dobFormatted = parsedDate.ToString("dd MMMM yyyy");
         }
 
-        nameText.text = name; 
+        nameText.text = name;
         infoText.text = $"DOB: {dobFormatted}\n" +
                         $"Gender: {gender}\n\n" +
                         $"Killed at the age of {age}.";
 
-        // Button state updates
         backButton.interactable = currentIndex > 1;
         nextButton.interactable = currentIndex < childrenList.Count;
     }
@@ -136,9 +165,9 @@ public class GetChild : MonoBehaviour
             currentIndex = 0;
             backButton.interactable = false;
             return;
-        } 
+        }
 
-        currentIndex -= 2; // Step back two because ShowNextChild will increment
+        currentIndex -= 2;
         ShowNextChild();
     }
 
@@ -152,37 +181,5 @@ public class GetChild : MonoBehaviour
             int k = rng.Next(n + 1);
             (list[k], list[n]) = (list[n], list[k]);
         }
-    }
-
-    void ExportToFile(List<JSONNode> list, string fileName)
-    {
-        string filePath = Path.Combine(Application.dataPath, fileName);
-        List<string> lines = new List<string>();
-
-        lines.Add("Name,Age,Gender,DateOfBirth");
-
-        foreach (var person in list)
-        {
-            string name = EscapeCsv(person["en_name"]);
-            string age = person["age"];
-            string gender = (person["sex"] == "m" ? "Boy" : "Girl");
-            string dob = person["dob"];
-
-            string line = $"{name},{age},{gender},{dob}";
-            lines.Add(line);
-        }
-
-        File.WriteAllLines(filePath, lines.ToArray());
-        Debug.Log($"📄 Exported {list.Count} entries to {filePath}");
-    }
-
-    string EscapeCsv(string value)
-    {
-        if (value.Contains(",") || value.Contains("\""))
-        {
-            value = value.Replace("\"", "\"\"");
-            value = $"\"{value}\"";
-        }
-        return value;
     }
 }
