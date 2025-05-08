@@ -4,28 +4,31 @@ using UnityEngine;
 using SimpleJSON;
 using UnityEngine.Networking;
 
+
 public class GetData : MonoBehaviour
 {
     public string DataURL;
 
+    // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(GetDataFromWeb());
+        StartCoroutine(getData());
     }
 
-    IEnumerator GetDataFromWeb()
+    IEnumerator getData()
     {
         using (UnityWebRequest request = UnityWebRequest.Get(DataURL))
         {
             yield return request.SendWebRequest();
 
-            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            if (request.result == UnityWebRequest.Result.ConnectionError)
             {
                 Debug.LogError(request.error);
             }
             else
             {
                 string json = request.downloadHandler.text;
+                Debug.Log(json);
                 ReadJSON(json);
             }
         }
@@ -34,30 +37,13 @@ public class GetData : MonoBehaviour
     void ReadJSON(string jsonString)
     {
         JSONNode node = JSON.Parse(jsonString);
-        GetDataHelper.StoreData(node);
-    }
-}
+        JSONObject obj = node.AsObject;
+        Debug.Log(obj["gaza"]["last_update"].Value);            //Summary report-date
+        Debug.Log(obj["gaza"]["killed"]["children"].Value);     //Summary total child deaths in Gaza
 
-// --- Helper class (not nested!) ---
-public static class GetDataHelper
-{
-    public static Dictionary<string, JSONNode> RegionData = new();
+        
+        Debug.Log(obj["west_bank"]["last_update"].Value);            //Summary report-date
+        Debug.Log(obj["west_bank"]["killed"]["children"].Value);     //Summary total child deaths in West-Bank
 
-    public static void StoreData(JSONNode node)
-    {
-        RegionData["gaza"] = node["gaza"];
-        RegionData["west_bank"] = node["west_bank"];
-    }
-
-    public static string GetFormattedInfo(string regionKey)
-    {
-        if (!RegionData.ContainsKey(regionKey)) return "Data not found.";
-
-        var data = RegionData[regionKey];
-        string regionName = regionKey.Replace("_", " ").ToUpper();
-
-        return $"Region: {regionName}\n" +
-               $"Last Update: {data["last_update"]}\n" +
-               $"Children Killed: {data["killed"]["children"]}";
     }
 }
