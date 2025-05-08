@@ -1,0 +1,9 @@
+# ninja log v5
+1	620	1746704277921189560	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	1bd3a1a823e5e208
+0	635	1746704277937455434	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	4c0e6725ffa4f1ed
+1	643	1746704277947199109	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	c22295b14ea13cb0
+2	698	1746704278001947887	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	bc3223afebb92572
+0	726	1746704278030147905	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	9597d51a95914b98
+1	845	1746704278149688512	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	db911d3493757a69
+0	885	1746704278189562256	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	411341c699190eab
+885	1014	1746704278285220076	/Users/yasmeenbelhaj/unity_docs/Palestine_Lit_By_Loss/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/1i6g4v16/obj/arm64-v8a/libgame.so	6e9ea402570afc83

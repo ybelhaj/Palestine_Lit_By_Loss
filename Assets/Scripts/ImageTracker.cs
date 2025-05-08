@@ -8,10 +8,10 @@ public class TrackImage : MonoBehaviour
     [SerializeField]
     ARTrackedImageManager m_TrackedImageManager;
 
-    public GameObject scanPrompt;   // Reference to Prompt A
-    public GameObject regionPrompt; // Reference to Prompt B
-
-    public GameObject mapPrefab; // Prefab to appear on marker image
+    public GameObject scanPrompt;    // Reference to Prompt A
+    public GameObject regionPrompt;  // Reference to Prompt B
+    public GameObject mapPrefab;     // Prefab to appear on marker image
+    public GameObject namesCanvas;   // NEW: Reference to the full NamesCanvas UI
 
     public static Vector3 LastSpawnPosition { get; private set; } // Public static spawn position
 
@@ -44,29 +44,26 @@ public class TrackImage : MonoBehaviour
                 if (lookDirection.sqrMagnitude > 0.001f)
                 {
                     Quaternion lookRotation = Quaternion.LookRotation(lookDirection.normalized);
-
-                    // Apply rotation
                     newObject.transform.rotation = lookRotation;
-
-                    // Debug logs
-                    //Debug.Log("Look direction: " + lookDirection);
-                    //Debug.Log("Applied rotation: " + lookRotation.eulerAngles);
                 }
             }
             else
             {
-                // Fallback
                 newObject.transform.rotation = spawnRotation;
-                //Debug.LogWarning("Camera.main not found — using tracked image rotation instead.");
             }
 
+            // Hide the scan prompt and show the region prompt
             if (scanPrompt != null)
                 scanPrompt.SetActive(false);
 
             if (regionPrompt != null)
                 regionPrompt.SetActive(true);
 
-            // Store spawn position globally for use by RegionSelector
+            // NEW: Show the full Names UI
+            if (namesCanvas != null)
+                namesCanvas.SetActive(true);
+
+            // Store spawn position globally
             LastSpawnPosition = spawnPosition;
         }
     }

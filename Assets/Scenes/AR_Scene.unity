@@ -2502,6 +2502,7 @@ MonoBehaviour:
   regionPrompt: {fileID: 6865874689243820742}
   mapPrefab: {fileID: 3924571517849535853, guid: cc4f49d454c0e4996b0d582a8ad36988,
     type: 3}
+  namesCanvas: {fileID: 1758169689}
 --- !u!1 &1660043436
 GameObject:
   m_ObjectHideFlags: 0
@@ -2756,7 +2757,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1872796291
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2810,7 +2811,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1daf3b94f96e641adadc7dd83cd10abf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DataURL: https://data.techforpalestine.org/api/v2/killed-in-gaza.json
+  DataURL: https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json
+  namesCanvas: {fileID: 1758169689}
   homeButton: {fileID: 1325204887}
   startNamesButton: {fileID: 953274717}
   namesPanel: {fileID: 1872796290}

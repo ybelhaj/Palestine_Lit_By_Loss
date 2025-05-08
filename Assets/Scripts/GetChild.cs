@@ -12,14 +12,14 @@ public class GetChild : MonoBehaviour
 {
     public string DataURL = "https://data.techforpalestine.org/api/v2/killed-in-gaza.min.json";
 
-    public GameObject homeButton;           //Button return to intro
-    public GameObject startNamesButton;    //'Know Their Names' button
-    public GameObject namesPanel;          //Panel that holds infoText, nameText and buttons 
-    public TextMeshProUGUI nameText;       //TextMeshProUGUI for displaying name
-    public TextMeshProUGUI infoText;       //TextMeshProUGUI for displaying info
-    public Button nextButton;              //UI Button to go to next child
-    public Button backButton;              //UI Button to go back
-
+    public GameObject namesCanvas;         // Entire UI Canvas to hide/show
+    public GameObject homeButton;          // Button to return to intro
+    public GameObject startNamesButton;    // 'Know Their Names' button
+    public GameObject namesPanel;          // Panel that holds infoText, nameText and buttons 
+    public TextMeshProUGUI nameText;       // TextMeshProUGUI for displaying name
+    public TextMeshProUGUI infoText;       // TextMeshProUGUI for displaying info
+    public Button nextButton;              // UI Button to go to next child
+    public Button backButton;              // UI Button to go back
 
     private List<JSONNode> childrenList = new List<JSONNode>();
     private int currentIndex = 0;
@@ -27,9 +27,7 @@ public class GetChild : MonoBehaviour
 
     void Start()
     {
-        namesPanel.SetActive(false);        //Hide NamesPanel UI at start
-        startNamesButton.SetActive(true);   //Show the 'Know their names' button
-        homeButton.SetActive(false); // Hide Home button at start
+        namesCanvas.SetActive(false);       // Hide entire UI canvas initially
     }
 
     IEnumerator GetDataFromWeb()
@@ -72,7 +70,6 @@ public class GetChild : MonoBehaviour
         startNamesButton.SetActive(true);
         homeButton.SetActive(false);
     }
-
 
     void ProcessJSON(string jsonString)
     {
@@ -127,11 +124,10 @@ public class GetChild : MonoBehaviour
                         $"Gender: {gender}\n\n" +
                         $"Killed at the age of {age}.";
 
-        //Button state updates
+        // Button state updates
         backButton.interactable = currentIndex > 1;
         nextButton.interactable = currentIndex < childrenList.Count;
     }
-
 
     public void ShowPreviousChild()
     {
@@ -142,7 +138,7 @@ public class GetChild : MonoBehaviour
             return;
         } 
 
-        currentIndex -= 2;      //Step back two because ShowNextChild will increment
+        currentIndex -= 2; // Step back two because ShowNextChild will increment
         ShowNextChild();
     }
 
