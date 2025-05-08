@@ -264,7 +264,7 @@ MonoBehaviour:
   otherRegions:
   - {fileID: 9024155827123366897}
   - {fileID: 7052892329761205567}
-  targetScale: {x: 1, y: 1, z: 1}
+  targetScale: {x: 5, y: 5, z: 1}
   targetPosition: {x: 0, y: 0, z: 0}
   targetRotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
   moveSpeed: 2

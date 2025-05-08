@@ -47,7 +47,7 @@ public class RegionSelector : MonoBehaviour
 
             transform.position = Vector3.Lerp(initialPosition, targetPosition, lerpProgress);
             transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, lerpProgress);
-            // Optional: transform.localScale = Vector3.Lerp(initialScale, targetScale, lerpProgress);
+            transform.localScale = Vector3.Lerp(initialScale, targetScale, lerpProgress);
         }
     }
 }
