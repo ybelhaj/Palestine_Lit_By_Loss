@@ -4,17 +4,20 @@ using UnityEngine.UI;
 public class RegionSelector : MonoBehaviour
 {
     public GameObject[] otherRegions;
-    public Vector3 targetScale = Vector3.one;
-    public Vector3 targetPosition = Vector3.zero;
-    public Quaternion targetRotation = Quaternion.Euler(0, 0, 0);
 
-    public float moveSpeed = 2.0f;
+    public Vector3 targetScale = Vector3.one * 1.5f;
+    public float floatHeight = 0.5f;
+    public float floatAmplitude = 0.05f;
+    public float floatSpeed = 2f;
+    public float moveSpeed = 2f;
 
     private bool isSelected = false;
     private Vector3 initialScale;
     private Vector3 initialPosition;
     private Quaternion initialRotation;
     private float lerpProgress = 0f;
+    private float floatStartY;
+    private float floatTimeOffset;
 
     private GameObject regionPrompt;
     private Button backMapButton;
@@ -35,6 +38,8 @@ public class RegionSelector : MonoBehaviour
             backMapButton.gameObject.SetActive(false);
             backMapButton.onClick.AddListener(ReturnToMap);
         }
+
+        floatTimeOffset = Random.Range(0f, 2f * Mathf.PI); // So each region floats differently
     }
 
     void OnMouseDown()
@@ -53,8 +58,10 @@ public class RegionSelector : MonoBehaviour
             if (backMapButton != null)
                 backMapButton.gameObject.SetActive(true);
 
-            targetPosition = TrackImage.LastSpawnPosition;
             isSelected = true;
+            lerpProgress = 0f;
+
+            floatStartY = TrackImage.LastSpawnPosition.y + floatHeight;
         }
     }
 
@@ -65,9 +72,17 @@ public class RegionSelector : MonoBehaviour
             lerpProgress += Time.deltaTime * moveSpeed;
             lerpProgress = Mathf.Clamp01(lerpProgress);
 
+            Vector3 targetPosition = TrackImage.LastSpawnPosition + new Vector3(0, floatHeight, 0);
             transform.position = Vector3.Lerp(initialPosition, targetPosition, lerpProgress);
-            transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, lerpProgress);
             transform.localScale = Vector3.Lerp(initialScale, targetScale, lerpProgress);
+        }
+
+        if (isSelected && lerpProgress >= 1f)
+        {
+            // Floating motion
+            Vector3 pos = transform.position;
+            pos.y = floatStartY + Mathf.Sin(Time.time * floatSpeed + floatTimeOffset) * floatAmplitude;
+            transform.position = pos;
         }
     }
 
@@ -95,7 +110,6 @@ public class RegionSelector : MonoBehaviour
         if (backMapButton != null)
             backMapButton.gameObject.SetActive(false);
 
-        // Optionally re-show the region prompt
         if (regionPrompt != null)
             regionPrompt.SetActive(true);
     }
