@@ -137,8 +137,9 @@ MonoBehaviour:
   - {fileID: 8602735532287254287}
   - {fileID: 9024155827123366897}
   targetScale: {x: 1, y: 1, z: 1}
-  targetPosition: {x: 0, y: 0, z: 0}
-  targetRotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
+  floatHeight: 0.5
+  floatAmplitude: 0.04
+  floatSpeed: 2
   moveSpeed: 2
 --- !u!64 &7935545137047899558
 MeshCollider:
@@ -265,8 +266,9 @@ MonoBehaviour:
   - {fileID: 9024155827123366897}
   - {fileID: 7052892329761205567}
   targetScale: {x: 5, y: 5, z: 1}
-  targetPosition: {x: 0, y: 0, z: 0}
-  targetRotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
+  floatHeight: 0.5
+  floatAmplitude: 0.04
+  floatSpeed: 2
   moveSpeed: 2
 --- !u!64 &2707395992641756598
 MeshCollider:
