@@ -8,30 +8,31 @@ public class TrackImage : MonoBehaviour
     [SerializeField]
     ARTrackedImageManager m_TrackedImageManager;
 
-    public GameObject scanPrompt;    // Reference to Prompt A
-    public GameObject regionPrompt;  // Reference to Prompt B
-    public GameObject mapPrefab;     // Prefab to appear on marker image
-    public GameObject namesCanvas;   // Reference to the full NamesCanvas UI
-    public ARSession arSession;      // Reference to the AR Session for reset
+    public GameObject scanPrompt;
+    public GameObject regionPrompt;
+    public GameObject mapPrefab;
+    public GameObject namesCanvas;
+    public GameObject gazaCandlePrompt;
+    public GameObject westBankCandlePrompt;
+    public GameObject gazaRegionInfo;        // ✅ NEW
+    public GameObject westBankRegionInfo;    // ✅ NEW
+    public ARSession arSession;
 
     public static Vector3 LastSpawnPosition { get; private set; }
 
-    private GameObject spawnedMap; // Store the spawned map instance
+    private GameObject spawnedMap;
 
     void OnEnable() => m_TrackedImageManager.trackedImagesChanged += OnChanged;
-
     void OnDisable() => m_TrackedImageManager.trackedImagesChanged -= OnChanged;
 
     void OnChanged(ARTrackedImagesChangedEventArgs eventArgs)
     {
         foreach (ARTrackedImage newImage in eventArgs.added)
         {
-            // Instantiate and track the map prefab
             spawnedMap = Instantiate(mapPrefab);
 
             Vector3 spawnPosition = newImage.transform.position;
             Quaternion spawnRotation = newImage.transform.rotation;
-
             spawnedMap.transform.position = spawnPosition;
 
             Transform cameraTransform = Camera.main != null ? Camera.main.transform : null;
@@ -51,12 +52,39 @@ public class TrackImage : MonoBehaviour
                 spawnedMap.transform.rotation = spawnRotation;
             }
 
-            // Update UI
             if (scanPrompt != null) scanPrompt.SetActive(false);
             if (regionPrompt != null) regionPrompt.SetActive(true);
             if (namesCanvas != null) namesCanvas.SetActive(true);
 
+            // ✅ Hide all prompts and info panels initially
+            if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(false);
+            if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(false);
+            if (gazaRegionInfo != null) gazaRegionInfo.SetActive(false);
+            if (westBankRegionInfo != null) westBankRegionInfo.SetActive(false);
+
             LastSpawnPosition = spawnPosition;
+        }
+    }
+
+    public void ShowCandlePrompt(string regionName)
+    {
+        // ✅ First, hide everything
+        if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(false);
+        if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(false);
+        if (gazaRegionInfo != null) gazaRegionInfo.SetActive(false);
+        if (westBankRegionInfo != null) westBankRegionInfo.SetActive(false);
+
+        // ✅ Then activate based on region
+        if (regionName == "Gaza")
+        {
+            if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(true);
+            if (gazaRegionInfo != null) gazaRegionInfo.SetActive(true);
+        }
+
+        if (regionName == "WestBank")
+        {
+            if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(true);
+            if (westBankRegionInfo != null) westBankRegionInfo.SetActive(true);
         }
     }
 
@@ -72,6 +100,12 @@ public class TrackImage : MonoBehaviour
         if (regionPrompt != null) regionPrompt.SetActive(false);
         if (namesCanvas != null) namesCanvas.SetActive(false);
 
+        // ✅ Hide all prompts and info panels
+        if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(false);
+        if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(false);
+        if (gazaRegionInfo != null) gazaRegionInfo.SetActive(false);
+        if (westBankRegionInfo != null) westBankRegionInfo.SetActive(false);
+
         StartCoroutine(ResetARSession());
     }
 
@@ -80,7 +114,7 @@ public class TrackImage : MonoBehaviour
         if (arSession != null)
         {
             arSession.Reset();
-            yield return null; // Wait one frame (optional)
+            yield return null;
         }
         else
         {

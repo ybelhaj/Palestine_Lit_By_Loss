@@ -136,11 +136,12 @@ MonoBehaviour:
   otherRegions:
   - {fileID: 8602735532287254287}
   - {fileID: 9024155827123366897}
-  targetScale: {x: 2, y: 2, z: 1}
+  targetScale: {x: 1.6, y: 1.6, z: 1}
   floatHeight: 0.5
   floatAmplitude: 0.04
   floatSpeed: 1
   moveSpeed: 1
+  regionName: WestBank
 --- !u!64 &7935545137047899558
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -270,6 +271,7 @@ MonoBehaviour:
   floatAmplitude: 0.04
   floatSpeed: 1
   moveSpeed: 1
+  regionName: Gaza
 --- !u!64 &2707395992641756598
 MeshCollider:
   m_ObjectHideFlags: 0

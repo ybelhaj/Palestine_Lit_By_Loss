@@ -11,6 +11,8 @@ public class RegionSelector : MonoBehaviour
     public float floatSpeed = 2f;
     public float moveSpeed = 2f;
 
+    public string regionName; // ✅ NEW: Set in Inspector: "Gaza" or "WestBank"
+
     private bool isSelected = false;
     private Vector3 initialScale;
     private Vector3 initialPosition;
@@ -21,6 +23,7 @@ public class RegionSelector : MonoBehaviour
 
     private GameObject regionPrompt;
     private Button backMapButton;
+    private TrackImage trackImage;
 
     void Start()
     {
@@ -31,7 +34,6 @@ public class RegionSelector : MonoBehaviour
         regionPrompt = GameObject.Find("RegionPrompt");
 
         GameObject buttonObj = GameObject.FindWithTag("MapBackButton");
-
         if (buttonObj != null)
         {
             backMapButton = buttonObj.GetComponent<Button>();
@@ -39,7 +41,8 @@ public class RegionSelector : MonoBehaviour
             backMapButton.onClick.AddListener(ReturnToMap);
         }
 
-        floatTimeOffset = Random.Range(0f, 2f * Mathf.PI); // So each region floats differently
+        floatTimeOffset = Random.Range(0f, 2f * Mathf.PI);
+        trackImage = FindObjectOfType<TrackImage>();
     }
 
     void OnMouseDown()
@@ -60,8 +63,11 @@ public class RegionSelector : MonoBehaviour
 
             isSelected = true;
             lerpProgress = 0f;
-
             floatStartY = TrackImage.LastSpawnPosition.y + floatHeight;
+
+            // ✅ Tell TrackImage to show the right prompt
+            if (trackImage != null)
+                trackImage.ShowCandlePrompt(regionName);
         }
     }
 
@@ -79,7 +85,6 @@ public class RegionSelector : MonoBehaviour
 
         if (isSelected && lerpProgress >= 1f)
         {
-            // Floating motion
             Vector3 pos = transform.position;
             pos.y = floatStartY + Mathf.Sin(Time.time * floatSpeed + floatTimeOffset) * floatAmplitude;
             transform.position = pos;
@@ -88,25 +93,20 @@ public class RegionSelector : MonoBehaviour
 
     void ReturnToMap()
     {
-        // Reactivate all regions (this + others)
         foreach (GameObject region in otherRegions)
         {
             if (region != null)
                 region.SetActive(true);
         }
 
-        gameObject.SetActive(true); // This region too, in case it was hidden
-
-        // Reset this region’s transform
+        gameObject.SetActive(true);
         transform.position = initialPosition;
         transform.rotation = initialRotation;
         transform.localScale = initialScale;
 
-        // Reset state
         isSelected = false;
         lerpProgress = 0f;
 
-        // Hide the back button
         if (backMapButton != null)
             backMapButton.gameObject.SetActive(false);
 
