@@ -21,7 +21,9 @@ public class TrackImage : MonoBehaviour
 
     public ARSession arSession;
 
-    public GetData getData; // ✅ Assign this in the Inspector
+    public GetData getData; // ✅ Assign in Inspector
+
+    public CandleSpawner candleSpawner; // ✅ Assign in Inspector
 
     public static Vector3 LastSpawnPosition { get; private set; }
 
@@ -73,28 +75,40 @@ public class TrackImage : MonoBehaviour
 
     public void ShowCandlePrompt(string regionName)
     {
-        // ✅ Hide everything first
+        // ✅ Hide all prompts and panels first
         if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(false);
         if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(false);
         if (gazaRegionInfo != null) gazaRegionInfo.SetActive(false);
         if (westBankRegionInfo != null) westBankRegionInfo.SetActive(false);
 
-        // ✅ Show correct set
+        // ✅ Show correct region's prompts and info
         if (regionName == "Gaza")
         {
             if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(true);
             if (gazaRegionInfo != null) gazaRegionInfo.SetActive(true);
         }
-
-        if (regionName == "WestBank")
+        else if (regionName == "WestBank")
         {
             if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(true);
             if (westBankRegionInfo != null) westBankRegionInfo.SetActive(true);
         }
 
-        // ✅ Trigger counter animation
+        // ✅ Animate counters via GetData
         if (getData != null)
             getData.AnimateRegionCounters(regionName);
+
+        // ✅ Spawn candles for the selected region
+        if (candleSpawner != null && getData != null)
+        {
+            int deathCount = 0;
+            if (regionName == "Gaza")
+                deathCount = getData.gazaDeaths;
+            else if (regionName == "WestBank")
+                deathCount = getData.westBankDeaths;
+
+            Vector3 candleCenter = new Vector3(LastSpawnPosition.x, spawnedMap.transform.position.y, LastSpawnPosition.z);
+            candleSpawner.SpawnCandles(deathCount, candleCenter);
+        }
     }
 
     public void ResetMap()
@@ -114,6 +128,10 @@ public class TrackImage : MonoBehaviour
         if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(false);
         if (gazaRegionInfo != null) gazaRegionInfo.SetActive(false);
         if (westBankRegionInfo != null) westBankRegionInfo.SetActive(false);
+
+        // ✅ Clear candles
+        if (candleSpawner != null)
+            candleSpawner.ClearAllCandles();
 
         StartCoroutine(ResetARSession());
     }

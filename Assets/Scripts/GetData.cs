@@ -16,8 +16,8 @@ public class GetData : MonoBehaviour
 
     public float counterDuration = 1.5f;
 
-    private int gazaDeaths = -1;
-    private int westBankDeaths = -1;
+    public int gazaDeaths = -1;
+    public int westBankDeaths = -1;
 
     private string gazaUpdateFormatted = "";
     private string westBankUpdateFormatted = "";

@@ -175,6 +175,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Candle_03_scaled
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 41ab2582dda044aba94cdc485b5fc8a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

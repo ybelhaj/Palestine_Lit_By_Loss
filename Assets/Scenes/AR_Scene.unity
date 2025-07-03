@@ -2958,6 +2958,8 @@ MonoBehaviour:
   westBankDeathTollText: {fileID: 2084207556}
   westBankLastUpdateText: {fileID: 808381715}
   counterDuration: 1.5
+  gazaDeaths: -1
+  westBankDeaths: -1
 --- !u!4 &985376390
 Transform:
   m_ObjectHideFlags: 0
@@ -2965,6 +2967,56 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 985376388}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &999595022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 999595024}
+  - component: {fileID: 999595023}
+  m_Layer: 0
+  m_Name: CandleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &999595023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999595022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e67dd5d32f684fd7b107c0024e83903, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  candlePrefabs:
+  - {fileID: 9109959077927941432, guid: 6ddcfe18b3ec1420982f77c7c6ab6dc7, type: 3}
+  - {fileID: 174449723770982104, guid: 7d96222ac23e34f5f8439e91b331d460, type: 3}
+  - {fileID: 230278337002375122, guid: eefa069e2161749dc8a904e580639f4d, type: 3}
+  initialPoolSize: 2000
+  spawnRadiusScale: 0.05
+--- !u!4 &999595024
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999595022}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -4053,6 +4105,7 @@ MonoBehaviour:
   westBankRegionInfo: {fileID: 662423523}
   arSession: {fileID: 1952817475}
   getData: {fileID: 985376389}
+  candleSpawner: {fileID: 999595023}
 --- !u!1 &1618667672
 GameObject:
   m_ObjectHideFlags: 0
@@ -6031,11 +6084,12 @@ SceneRoots:
   - {fileID: 1568608145}
   - {fileID: 1952817476}
   - {fileID: 1352922999}
+  - {fileID: 985376390}
+  - {fileID: 1896058408}
+  - {fileID: 999595024}
   - {fileID: 290015821}
   - {fileID: 1758169693}
   - {fileID: 6205965464941085184}
-  - {fileID: 1896058408}
-  - {fileID: 985376390}
   - {fileID: 2131944926}
   - {fileID: 692608108}
   - {fileID: 6997636030038241880}
