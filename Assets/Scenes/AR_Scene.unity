@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 86771907}
   - component: {fileID: 86771906}
   - component: {fileID: 86771905}
+  - component: {fileID: 86771908}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -201,7 +202,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 86771906}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 86771908}
+        m_TargetAssemblyTypeName: RegionInfoCloser, Assembly-CSharp
+        m_MethodName: CloseInfo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &86771906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +253,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 86771903}
   m_CullTransparentMesh: 1
+--- !u!114 &86771908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86771903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e1116550d3ad42e89fa0d92757653cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regionInfoPanelToHide: {fileID: 662423523}
 --- !u!1 &91648377
 GameObject:
   m_ObjectHideFlags: 0
@@ -2822,7 +2848,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &967059830
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2927,6 +2953,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DataURL: https://data.techforpalestine.org/api/v3/summary.json
+  gazaDeathTollText: {fileID: 111272317}
+  gazaLastUpdateText: {fileID: 960887768}
+  westBankDeathTollText: {fileID: 2084207556}
+  westBankLastUpdateText: {fileID: 808381715}
+  counterDuration: 1.5
 --- !u!4 &985376390
 Transform:
   m_ObjectHideFlags: 0
@@ -4021,6 +4052,7 @@ MonoBehaviour:
   gazaRegionInfo: {fileID: 967059829}
   westBankRegionInfo: {fileID: 662423523}
   arSession: {fileID: 1952817475}
+  getData: {fileID: 985376389}
 --- !u!1 &1618667672
 GameObject:
   m_ObjectHideFlags: 0
@@ -4680,7 +4712,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e1116550d3ad42e89fa0d92757653cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  candlePromptToHide: {fileID: 605496296}
   regionInfoPanelToHide: {fileID: 967059829}
 --- !u!1 &1872796290
 GameObject:

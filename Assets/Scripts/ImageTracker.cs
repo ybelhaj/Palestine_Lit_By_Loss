@@ -12,11 +12,16 @@ public class TrackImage : MonoBehaviour
     public GameObject regionPrompt;
     public GameObject mapPrefab;
     public GameObject namesCanvas;
+
     public GameObject gazaCandlePrompt;
     public GameObject westBankCandlePrompt;
-    public GameObject gazaRegionInfo;        // ✅ NEW
-    public GameObject westBankRegionInfo;    // ✅ NEW
+
+    public GameObject gazaRegionInfo;
+    public GameObject westBankRegionInfo;
+
     public ARSession arSession;
+
+    public GetData getData; // ✅ Assign this in the Inspector
 
     public static Vector3 LastSpawnPosition { get; private set; }
 
@@ -68,13 +73,13 @@ public class TrackImage : MonoBehaviour
 
     public void ShowCandlePrompt(string regionName)
     {
-        // ✅ First, hide everything
+        // ✅ Hide everything first
         if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(false);
         if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(false);
         if (gazaRegionInfo != null) gazaRegionInfo.SetActive(false);
         if (westBankRegionInfo != null) westBankRegionInfo.SetActive(false);
 
-        // ✅ Then activate based on region
+        // ✅ Show correct set
         if (regionName == "Gaza")
         {
             if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(true);
@@ -86,6 +91,10 @@ public class TrackImage : MonoBehaviour
             if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(true);
             if (westBankRegionInfo != null) westBankRegionInfo.SetActive(true);
         }
+
+        // ✅ Trigger counter animation
+        if (getData != null)
+            getData.AnimateRegionCounters(regionName);
     }
 
     public void ResetMap()
@@ -100,7 +109,7 @@ public class TrackImage : MonoBehaviour
         if (regionPrompt != null) regionPrompt.SetActive(false);
         if (namesCanvas != null) namesCanvas.SetActive(false);
 
-        // ✅ Hide all prompts and info panels
+        // ✅ Hide all prompts and panels
         if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(false);
         if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(false);
         if (gazaRegionInfo != null) gazaRegionInfo.SetActive(false);
