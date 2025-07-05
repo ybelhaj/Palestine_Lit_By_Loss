@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
-using UnityEngine.UI; // ✅ Required for Button
+using UnityEngine.UI;
 
 public class TrackImage : MonoBehaviour
 {
@@ -23,7 +23,8 @@ public class TrackImage : MonoBehaviour
     public GetData getData;
     public CandleSpawner candleSpawner;
 
-    public Button backToMapButton; // ✅ Now a Button, not GameObject
+    public Button backToMapButton; // Assigned in Inspector
+    public RegionInfoButtonManager regionInfoButtonManager; // ✅ NEW: assign in Inspector
 
     public static Vector3 LastSpawnPosition { get; private set; }
 
@@ -93,6 +94,9 @@ public class TrackImage : MonoBehaviour
             if (westBankRegionInfo != null) westBankRegionInfo.SetActive(true);
         }
 
+        if (regionInfoButtonManager != null)
+            regionInfoButtonManager.SetCurrentRegion(regionName); // ✅ show info button when panel is closed
+
         if (getData != null)
             getData.AnimateRegionCounters(regionName);
 
@@ -121,6 +125,9 @@ public class TrackImage : MonoBehaviour
 
         if (candleSpawner != null)
             candleSpawner.ClearAllCandles();
+
+        if (regionInfoButtonManager != null)
+            regionInfoButtonManager.ClearRegion(); // ✅ hide info buttons
 
         RegionSelector[] regionSelectors = FindObjectsOfType<RegionSelector>();
         foreach (var selector in regionSelectors)

@@ -981,9 +981,9 @@ RectTransform:
   - {fileID: 108219579}
   m_Father: {fileID: 1872796291}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -100, y: -650}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -100, y: -110}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &174476944
@@ -1485,10 +1485,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1872796291}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 40}
-  m_SizeDelta: {x: -436, y: -1030}
+  m_SizeDelta: {x: 800, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &457532047
 GameObject:
@@ -1524,9 +1524,9 @@ RectTransform:
   - {fileID: 1172402053}
   m_Father: {fileID: 1872796291}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 100, y: -650}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 100, y: -110}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &457532049
@@ -1674,7 +1674,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A candle has been lit for each child killed in the West Bank
+  m_text: A candle has been lit for each child killed in the West Bank since October
+    7th, 2023.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d709ccdc9169c4e68987c96d9bb3ea5a, type: 2}
   m_sharedMaterial: {fileID: -4108334988135267946, guid: d709ccdc9169c4e68987c96d9bb3ea5a,
@@ -1771,7 +1772,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 50}
-  m_SizeDelta: {x: -622.5, y: 50}
+  m_SizeDelta: {x: -100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &605496296
 GameObject:
@@ -1809,7 +1810,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 50}
-  m_SizeDelta: {x: -622.5, y: 50}
+  m_SizeDelta: {x: -100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &605496298
 CanvasGroup:
@@ -1843,7 +1844,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A candle has been lit for each child killed in Gaza
+  m_text: A candle has been lit for each child killed in Gaza since October 7th,
+    2023.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d709ccdc9169c4e68987c96d9bb3ea5a, type: 2}
   m_sharedMaterial: {fileID: -4108334988135267946, guid: d709ccdc9169c4e68987c96d9bb3ea5a,
@@ -2508,10 +2510,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1872796291}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 37.5}
-  m_SizeDelta: {x: 0, y: -675}
+  m_SizeDelta: {x: 0, y: 405}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &856032504
 MonoBehaviour:
@@ -2646,10 +2648,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1872796291}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 170}
-  m_SizeDelta: {x: -12, y: -1030}
+  m_SizeDelta: {x: 1224, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &859779123
 MonoBehaviour:
@@ -4209,7 +4211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.92156863}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4641,6 +4643,7 @@ MonoBehaviour:
   getData: {fileID: 985376389}
   candleSpawner: {fileID: 999595023}
   backToMapButton: {fileID: 1904247344}
+  regionInfoButtonManager: {fileID: 791321272}
 --- !u!1 &1618667672
 GameObject:
   m_ObjectHideFlags: 0
