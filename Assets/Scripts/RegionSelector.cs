@@ -11,7 +11,10 @@ public class RegionSelector : MonoBehaviour
     public float floatSpeed = 2f;
     public float moveSpeed = 2f;
 
-    public string regionName; // ✅ NEW: Set in Inspector: "Gaza" or "WestBank"
+    public string regionName;
+
+    private GameObject regionPrompt;
+    private TrackImage trackImage;
 
     private bool isSelected = false;
     private Vector3 initialScale;
@@ -21,10 +24,6 @@ public class RegionSelector : MonoBehaviour
     private float floatStartY;
     private float floatTimeOffset;
 
-    private GameObject regionPrompt;
-    private Button backMapButton;
-    private TrackImage trackImage;
-
     void Start()
     {
         initialScale = transform.localScale;
@@ -33,16 +32,15 @@ public class RegionSelector : MonoBehaviour
 
         regionPrompt = GameObject.Find("RegionPrompt");
 
-        GameObject buttonObj = GameObject.FindWithTag("MapBackButton");
-        if (buttonObj != null)
+        trackImage = Object.FindAnyObjectByType<TrackImage>();
+
+        if (trackImage != null && trackImage.backToMapButton != null)
         {
-            backMapButton = buttonObj.GetComponent<Button>();
-            backMapButton.gameObject.SetActive(false);
-            backMapButton.onClick.AddListener(ReturnToMap);
+            trackImage.backToMapButton.gameObject.SetActive(false);
+            trackImage.backToMapButton.onClick.AddListener(ReturnToMap);
         }
 
         floatTimeOffset = Random.Range(0f, 2f * Mathf.PI);
-        trackImage = Object.FindAnyObjectByType<TrackImage>();
     }
 
     void OnMouseDown()
@@ -58,14 +56,13 @@ public class RegionSelector : MonoBehaviour
             if (regionPrompt != null)
                 regionPrompt.SetActive(false);
 
-            if (backMapButton != null)
-                backMapButton.gameObject.SetActive(true);
+            if (trackImage != null && trackImage.backToMapButton != null)
+                trackImage.backToMapButton.gameObject.SetActive(true);
 
             isSelected = true;
             lerpProgress = 0f;
             floatStartY = TrackImage.LastSpawnPosition.y + floatHeight;
 
-            // ✅ Tell TrackImage to show the right prompt
             if (trackImage != null)
                 trackImage.ShowCandlePrompt(regionName);
         }
@@ -107,10 +104,33 @@ public class RegionSelector : MonoBehaviour
         isSelected = false;
         lerpProgress = 0f;
 
-        if (backMapButton != null)
-            backMapButton.gameObject.SetActive(false);
+        if (trackImage != null && trackImage.backToMapButton != null)
+            trackImage.backToMapButton.gameObject.SetActive(false);
 
         if (regionPrompt != null)
             regionPrompt.SetActive(true);
+    }
+
+    public void ResetRegion()
+    {
+        transform.position = initialPosition;
+        transform.rotation = initialRotation;
+        transform.localScale = initialScale;
+        gameObject.SetActive(true);
+
+        isSelected = false;
+        lerpProgress = 0f;
+
+        if (regionPrompt != null)
+            regionPrompt.SetActive(true);
+
+        if (trackImage != null && trackImage.backToMapButton != null)
+            trackImage.backToMapButton.gameObject.SetActive(false);
+
+        foreach (GameObject region in otherRegions)
+        {
+            if (region != null)
+                region.SetActive(true);
+        }
     }
 }

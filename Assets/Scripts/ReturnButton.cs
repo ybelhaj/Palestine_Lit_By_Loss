@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RestartButton : MonoBehaviour
+public class ReturnButton : MonoBehaviour
 {
     public TrackImage trackImage;
 
@@ -10,16 +10,16 @@ public class RestartButton : MonoBehaviour
         Button btn = GetComponent<Button>();
         if (btn != null && trackImage != null)
         {
-            btn.onClick.AddListener(OnRestartClicked);
+            btn.onClick.AddListener(OnReturnClicked);
         }
         else
         {
-            Debug.LogWarning("⚠️ RestartButton: Button or TrackImage reference is missing.");
+            Debug.LogWarning("⚠️ ReturnButton: Missing Button or TrackImage reference.");
         }
     }
 
-    void OnRestartClicked()
+    void OnReturnClicked()
     {
-        trackImage.ResetMap();
+        trackImage.ReturnToMainMap();
     }
 }

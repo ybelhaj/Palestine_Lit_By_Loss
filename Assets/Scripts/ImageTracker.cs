@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.UI; // ✅ Required for Button
 
 public class TrackImage : MonoBehaviour
 {
@@ -19,10 +20,10 @@ public class TrackImage : MonoBehaviour
     public GameObject gazaRegionInfo;
     public GameObject westBankRegionInfo;
 
-    public ARSession arSession;
+    public GetData getData;
+    public CandleSpawner candleSpawner;
 
-    public GetData getData; // ✅ Assign in Inspector
-    public CandleSpawner candleSpawner; // ✅ Assign in Inspector
+    public Button backToMapButton; // ✅ Now a Button, not GameObject
 
     public static Vector3 LastSpawnPosition { get; private set; }
 
@@ -62,11 +63,13 @@ public class TrackImage : MonoBehaviour
             if (regionPrompt != null) regionPrompt.SetActive(true);
             if (namesCanvas != null) namesCanvas.SetActive(true);
 
-            // ✅ Hide all prompts and info panels initially
             if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(false);
             if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(false);
             if (gazaRegionInfo != null) gazaRegionInfo.SetActive(false);
             if (westBankRegionInfo != null) westBankRegionInfo.SetActive(false);
+
+            if (backToMapButton != null)
+                backToMapButton.gameObject.SetActive(false);
 
             LastSpawnPosition = spawnPosition;
         }
@@ -74,13 +77,11 @@ public class TrackImage : MonoBehaviour
 
     public void ShowCandlePrompt(string regionName)
     {
-        // ✅ Hide all prompts and panels first
         if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(false);
         if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(false);
         if (gazaRegionInfo != null) gazaRegionInfo.SetActive(false);
         if (westBankRegionInfo != null) westBankRegionInfo.SetActive(false);
 
-        // ✅ Show correct region's prompts and info
         if (regionName == "Gaza")
         {
             if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(true);
@@ -92,11 +93,9 @@ public class TrackImage : MonoBehaviour
             if (westBankRegionInfo != null) westBankRegionInfo.SetActive(true);
         }
 
-        // ✅ Animate counters via GetData
         if (getData != null)
             getData.AnimateRegionCounters(regionName);
 
-        // ✅ Spawn candles for the selected region
         if (candleSpawner != null && getData != null)
         {
             int deathCount = 0;
@@ -108,53 +107,28 @@ public class TrackImage : MonoBehaviour
             Vector3 candleCenter = new Vector3(LastSpawnPosition.x, spawnedMap.transform.position.y, LastSpawnPosition.z);
             candleSpawner.SpawnCandles(deathCount, candleCenter);
         }
-
-        // ✅ Inform the RegionInfoButtonManager of the current region
-        RegionInfoButtonManager infoButtonManager = FindAnyObjectByType<RegionInfoButtonManager>();
-        if (infoButtonManager != null)
-            infoButtonManager.SetCurrentRegion(regionName);
     }
 
-    public void ResetMap()
+    public void ReturnToMainMap()
     {
-        if (spawnedMap != null)
-        {
-            Destroy(spawnedMap);
-            spawnedMap = null;
-        }
+        if (regionPrompt != null) regionPrompt.SetActive(true);
+        if (namesCanvas != null) namesCanvas.SetActive(true);
 
-        if (scanPrompt != null) scanPrompt.SetActive(true);
-        if (regionPrompt != null) regionPrompt.SetActive(false);
-        if (namesCanvas != null) namesCanvas.SetActive(false);
-
-        // ✅ Hide all prompts and panels
         if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(false);
         if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(false);
         if (gazaRegionInfo != null) gazaRegionInfo.SetActive(false);
         if (westBankRegionInfo != null) westBankRegionInfo.SetActive(false);
 
-        // ✅ Clear candles
         if (candleSpawner != null)
             candleSpawner.ClearAllCandles();
 
-        // ✅ Clear current region for UI button logic
-        RegionInfoButtonManager infoButtonManager = FindAnyObjectByType<RegionInfoButtonManager>();
-        if (infoButtonManager != null)
-            infoButtonManager.ClearRegion();
-
-        StartCoroutine(ResetARSession());
-    }
-
-    private IEnumerator ResetARSession()
-    {
-        if (arSession != null)
+        RegionSelector[] regionSelectors = FindObjectsOfType<RegionSelector>();
+        foreach (var selector in regionSelectors)
         {
-            arSession.Reset();
-            yield return null;
+            selector.ResetRegion();
         }
-        else
-        {
-            Debug.LogWarning("⚠️ ARSession reference not assigned.");
-        }
+
+        if (backToMapButton != null)
+            backToMapButton.gameObject.SetActive(false);
     }
 }
