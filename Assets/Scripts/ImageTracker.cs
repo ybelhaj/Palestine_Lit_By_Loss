@@ -22,7 +22,6 @@ public class TrackImage : MonoBehaviour
     public ARSession arSession;
 
     public GetData getData; // ✅ Assign in Inspector
-
     public CandleSpawner candleSpawner; // ✅ Assign in Inspector
 
     public static Vector3 LastSpawnPosition { get; private set; }
@@ -109,6 +108,11 @@ public class TrackImage : MonoBehaviour
             Vector3 candleCenter = new Vector3(LastSpawnPosition.x, spawnedMap.transform.position.y, LastSpawnPosition.z);
             candleSpawner.SpawnCandles(deathCount, candleCenter);
         }
+
+        // ✅ Inform the RegionInfoButtonManager of the current region
+        RegionInfoButtonManager infoButtonManager = FindAnyObjectByType<RegionInfoButtonManager>();
+        if (infoButtonManager != null)
+            infoButtonManager.SetCurrentRegion(regionName);
     }
 
     public void ResetMap()
@@ -132,6 +136,11 @@ public class TrackImage : MonoBehaviour
         // ✅ Clear candles
         if (candleSpawner != null)
             candleSpawner.ClearAllCandles();
+
+        // ✅ Clear current region for UI button logic
+        RegionInfoButtonManager infoButtonManager = FindAnyObjectByType<RegionInfoButtonManager>();
+        if (infoButtonManager != null)
+            infoButtonManager.ClearRegion();
 
         StartCoroutine(ResetARSession());
     }
