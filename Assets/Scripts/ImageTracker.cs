@@ -23,12 +23,13 @@ public class TrackImage : MonoBehaviour
     public GetData getData;
     public CandleSpawner candleSpawner;
 
-    public Button backToMapButton; // Assigned in Inspector
-    public RegionInfoButtonManager regionInfoButtonManager; // ✅ NEW: assign in Inspector
+    public Button backToMapButton;
+    public RegionInfoButtonManager regionInfoButtonManager;
 
     public static Vector3 LastSpawnPosition { get; private set; }
 
     private GameObject spawnedMap;
+    private string currentRegion = ""; // 🆕 Track selected region
 
     void OnEnable() => m_TrackedImageManager.trackedImagesChanged += OnChanged;
     void OnDisable() => m_TrackedImageManager.trackedImagesChanged -= OnChanged;
@@ -62,7 +63,16 @@ public class TrackImage : MonoBehaviour
 
             if (scanPrompt != null) scanPrompt.SetActive(false);
             if (regionPrompt != null) regionPrompt.SetActive(true);
-            if (namesCanvas != null) namesCanvas.SetActive(true);
+
+            if (namesCanvas != null)
+            {
+                namesCanvas.SetActive(true);
+
+                // 🔻 Hide StartNamesButton initially
+                GameObject startButton = namesCanvas.transform.Find("StartNamesButton")?.gameObject;
+                if (startButton != null)
+                    startButton.SetActive(false);
+            }
 
             if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(false);
             if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(false);
@@ -83,6 +93,8 @@ public class TrackImage : MonoBehaviour
         if (gazaRegionInfo != null) gazaRegionInfo.SetActive(false);
         if (westBankRegionInfo != null) westBankRegionInfo.SetActive(false);
 
+        currentRegion = regionName; // 🆕 track current region
+
         if (regionName == "Gaza")
         {
             if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(true);
@@ -95,7 +107,7 @@ public class TrackImage : MonoBehaviour
         }
 
         if (regionInfoButtonManager != null)
-            regionInfoButtonManager.SetCurrentRegion(regionName); // ✅ show info button when panel is closed
+            regionInfoButtonManager.SetCurrentRegion(regionName);
 
         if (getData != null)
             getData.AnimateRegionCounters(regionName);
@@ -116,7 +128,18 @@ public class TrackImage : MonoBehaviour
     public void ReturnToMainMap()
     {
         if (regionPrompt != null) regionPrompt.SetActive(true);
-        if (namesCanvas != null) namesCanvas.SetActive(true);
+
+        currentRegion = ""; // 🆕 reset region
+
+        if (namesCanvas != null)
+        {
+            namesCanvas.SetActive(true);
+
+            // ❌ Hide StartNamesButton on return
+            GameObject startButton = namesCanvas.transform.Find("StartNamesButton")?.gameObject;
+            if (startButton != null)
+                startButton.SetActive(false);
+        }
 
         if (gazaCandlePrompt != null) gazaCandlePrompt.SetActive(false);
         if (westBankCandlePrompt != null) westBankCandlePrompt.SetActive(false);
@@ -127,7 +150,7 @@ public class TrackImage : MonoBehaviour
             candleSpawner.ClearAllCandles();
 
         if (regionInfoButtonManager != null)
-            regionInfoButtonManager.ClearRegion(); // ✅ hide info buttons
+            regionInfoButtonManager.ClearRegion();
 
         RegionSelector[] regionSelectors = FindObjectsOfType<RegionSelector>();
         foreach (var selector in regionSelectors)
@@ -137,5 +160,24 @@ public class TrackImage : MonoBehaviour
 
         if (backToMapButton != null)
             backToMapButton.gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (namesCanvas != null)
+        {
+            GameObject startButton = namesCanvas.transform.Find("StartNamesButton")?.gameObject;
+            GameObject namesPanel = namesCanvas.transform.Find("NamesPanel")?.gameObject;
+
+            if (startButton != null)
+            {
+                bool isGaza = currentRegion == "Gaza";
+                bool isGazaInfoClosed = gazaRegionInfo != null && !gazaRegionInfo.activeSelf;
+                bool isNamesPanelClosed = namesPanel == null || !namesPanel.activeSelf;
+
+                bool shouldShow = isGaza && isGazaInfoClosed && isNamesPanelClosed;
+                startButton.SetActive(shouldShow);
+            }
+        }
     }
 }
