@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class ReturnButton : MonoBehaviour
 {
-    public TrackImage trackImage;
- 
+    public TrackImage trackImage; 
      
     void Start()
     {
